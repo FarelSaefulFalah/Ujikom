@@ -43,7 +43,7 @@
                                     aria-labelledby="editUserModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('user.update', $user->id) }}" method="POST">
+                                            <form action="{{ route('admin.user.update', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
@@ -89,7 +89,7 @@
                                     aria-labelledby="deleteUserModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                            <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <div class="modal-header">
@@ -123,13 +123,13 @@
     <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('user.store') }}" method="POST">
+                <form action="{{ route('admin.user.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createUserModalLabel">Create New User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    {{-- <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" class="form-control" required>
@@ -151,6 +151,35 @@
                             <select name="role" class="form-control" required>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div> --}}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" name="password_confirmation" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select name="role" class="form-control" required>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}"
+                                        {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

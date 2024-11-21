@@ -30,7 +30,7 @@
                                     <td>{{ $Pemasok->alamat }}</td>
                                     <td>
                                         <!-- Edit Button -->
-                                        <button class="btn btn-warning" data-bs-  , toggle="modal"
+                                        <button class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editPemasokModal{{ $Pemasok->id }}">Edit</button>
 
                                         <!-- Delete Button -->
@@ -44,7 +44,7 @@
                                     aria-labelledby="editPemasokModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('admin.Pemasok.update', $Pemasok->id) }}" method="POST">
+                                            <form action="{{ route('admin.pemasok.update', $Pemasok->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
@@ -57,6 +57,16 @@
                                                         <label for="name">Nama</label>
                                                         <input type="text" name="name" class="form-control"
                                                             value="{{ $Pemasok->name }}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="no_telp">No Telephone</label>
+                                                        <input type="text" name="no_telp" class="form-control"
+                                                            value="{{ $Pemasok->no_telp }}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="alamat">Alamat</label>
+                                                        <input type="text" name="alamat" class="form-control"
+                                                            value="{{ $Pemasok->alamat }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -74,7 +84,8 @@
                                     aria-labelledby="deletePemasokModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('admin.Pemasok.destroy', $Pemasok->id) }}" method="POST">
+                                            <form action="{{ route('admin.pemasok.destroy', $Pemasok->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <div class="modal-header">
@@ -119,6 +130,14 @@
                         <div class="form-group">
                             <label for="name">Nama</label>
                             <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="no_telp">No Telephone</label>
+                            <input type="text" name="no_telp" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <input type="text" name="alamat" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">

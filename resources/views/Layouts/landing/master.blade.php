@@ -62,73 +62,12 @@
             <p>Pusat Dimana Barang - Barang Yang Kamu Perlukan Berada Disini.</p>
         </div>
     </div>
-
-    <!-- About Section -->
-    <section id="about" class="py-5">
-        <div class="container text-center">
-            <h2>About Us</h2>
-            <p class="mt-3">
-                We provide innovative solutions to help your business grow. Our team is dedicated to ensuring your success.
-            </p>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center">Our Features</h2>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Feature 1</h5>
-                            <p class="card-text">Highlight your first unique feature.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Feature 2</h5>
-                            <p class="card-text">Showcase another key aspect of your offering.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Feature 3</h5>
-                            <p class="card-text">Emphasize what sets you apart.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-5">
-        <div class="container text-center">
-            <h2>Contact Us</h2>
-            <p class="mt-3">We'd love to hear from you. Reach out today!</p>
-            <form action="#" method="post" class="mt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control mb-3" placeholder="Your Name" required>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="email" class="form-control mb-3" placeholder="Your Email" required>
-                    </div>
-                </div>
-                <textarea class="form-control mb-3" rows="4" placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-        </div>
-    </section>
+    <br>
+    @yield('content')
 
     <!-- Footer -->
     <footer class="text-center">
-        &copy; {{ date('Y') }} Inventariz TIRIZ. All rights reserved.
+        &copy; {{ date('Y') }} AmbaTaris. All rights reserved.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

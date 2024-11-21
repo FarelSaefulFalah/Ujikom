@@ -41,7 +41,7 @@ class UserController extends Controller
     // Assign role
     $user->assignRole($validatedData['role']);
 
-    return redirect()->route('user.index')->with('success', 'User berhasil dibuat.');
+    return redirect()->route('admin.user.index')->with('success', 'User berhasil dibuat.');
     }
 
     public function edit($id)
@@ -69,7 +69,7 @@ class UserController extends Controller
     // Sync role
     $user->syncRoles($validatedData['role']);
 
-    return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
+    return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui.');
     }
 
 
@@ -78,6 +78,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.user.index')->with('success', 'User deleted successfully.');
     }
 }

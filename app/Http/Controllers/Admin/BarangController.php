@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\barang;
+use App\Models\Barang;
+use App\Models\Kategori;
+use App\Models\Pemasok;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
@@ -13,7 +16,10 @@ class BarangController extends Controller
      */
     public function index()
     {
-        //
+        $kategoris = Kategori::all();
+        $pemasoks = Pemasok::all();
+        $barangs = Barang::with(['kategori', 'pemasok'])->get();
+        return view('admin.barang.index', compact('barangs', 'kategoris', 'pemasoks'));
     }
 
     /**
@@ -21,7 +27,9 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        $kategoris = Kategori::all();
+        $pemasoks = Pemasok::all();
+        return view('admin.barang.create', compact('kategoris', 'pemasoks'));
     }
 
     /**
@@ -29,38 +37,88 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'keterangan' => 'required|string',
+            'jumlah' => 'required|integer',
+            'satuan' => 'required|string|max:50',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kategori_id' => 'required|exists:kategoris,id',
+            'pemasok_id' => 'required|exists:pemasoks,id',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+            $gambarPath = $gambar->store('uploads/barang', 'public');
+            $validatedData['gambar'] = $gambarPath;
+        }
+
+        Barang::create($validatedData);
+
+        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(barang $barang)
+    public function show(Barang $barang)
     {
-        //
+        return view('admin.barang.show', compact('barang'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(barang $barang)
+    public function edit(Barang $barang)
     {
-        //
+        $kategoris = Kategori::all();
+        $pemasoks = Pemasok::all();
+        return view('admin.barang.edit', compact('barang', 'kategoris', 'pemasoks'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, barang $barang)
+    public function update(Request $request, Barang $barang)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'keterangan' => 'required|string',
+            'jumlah' => 'required|integer',
+            'satuan' => 'required|string|max:50',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kategori_id' => 'required|exists:kategoris,id',
+            'pemasok_id' => 'required|exists:pemasoks,id',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            if ($barang->gambar && Storage::exists('public/' . $barang->gambar)) {
+                Storage::delete('public/' . $barang->gambar);
+            }
+
+            $gambar = $request->file('gambar');
+            $gambarPath = $gambar->store('uploads/barang', 'public');
+            $validatedData['gambar'] = $gambarPath;
+        }
+
+        $barang->update($validatedData);
+
+        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(barang $barang)
+    public function destroy(Barang $barang)
     {
-        //
+        // Hapus gambar dari storage jika ada
+        if ($barang->gambar && Storage::exists('public/' . $barang->gambar)) {
+            Storage::delete('public/' . $barang->gambar);
+        }
+
+        $barang->delete();
+
+        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus.');
     }
 }

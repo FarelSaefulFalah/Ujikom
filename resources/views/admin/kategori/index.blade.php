@@ -117,12 +117,6 @@
                             <input type="text" name="name" class="form-control" required>
                         </div>
                     </div>
-                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="slug">Nama</label>
-                            <input type="text" name="slug" class="form-control" required>
-                        </div>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>

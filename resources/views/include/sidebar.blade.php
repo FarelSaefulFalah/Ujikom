@@ -6,7 +6,7 @@
           <div class="sidebar-brand-icon rotate-n-15">
               <i class="bi bi-backpack3"></i>
           </div>
-          <div class="sidebar-brand-text mx-3">Inventaris <sup></sup></div>
+          <div class="sidebar-brand-text mx-3">Ambaaaaataris <sup></sup></div>
       </a>
       @role('Murid')
        <!-- Divider -->
@@ -54,8 +54,8 @@
       </div>
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-          <a class="nav-link {{ Route::is('admin.dashboard') ? 'active' : '' }}"
+      <li class="nav-item">
+          <a class="nav-link {{ Route::is('admin.dashboard') }}"
           href="{{route('admin.dashboard')}}">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span></a>
@@ -87,10 +87,23 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="">
+          <a class="nav-link" href="{{route('admin.barang.index')}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Barang</span>
           </a>
+      </li>
+        <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+      <div class="sidebar-heading">
+          Stock
+      </div>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item ">
+          <a class="nav-link {{ Route::is('admin.stock.index') }}"
+          href="{{route('admin.stock.index')}}">
+              <i class="fas fa-fw fa-tachometer-alt"></i>
+              <span>Stock</span></a>
       </li>
 
       <!-- Divider -->

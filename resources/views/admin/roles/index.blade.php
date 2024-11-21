@@ -42,7 +42,7 @@
                         aria-labelledby="rolePermissionModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form action="{{ route('roles.update', $role->id) }}" method="POST">
+                                <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-header">
@@ -88,7 +88,7 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('roles.store') }}" method="POST">
+                    <form action="{{ route('admin.roles.store') }}" method="POST">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="rolePermissionModalLabel">Create New Role</h5>

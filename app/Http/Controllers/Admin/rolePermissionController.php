@@ -32,7 +32,7 @@ public function store(Request $request)
         $role->syncPermissions($request->permissions); // Sync dengan permission yang dipilih
     }
 
-    return redirect()->route('roles.index')->with('success', 'Role berhasil dibuat!');
+    return redirect()->route('admin.roles.index')->with('success', 'Role berhasil dibuat!');
 }
 
     // Tambahkan permission baru dan tetapkan ke role
@@ -48,7 +48,7 @@ public function store(Request $request)
     // Hapus semua permission lama dan tambahkan yang baru
     $role->syncPermissions($request->permissions);
 
-    return redirect()->route('roles.index')->with('success', 'Permission berhasil diperbarui!');
+    return redirect()->route('admin.roles.index')->with('success', 'Permission berhasil diperbarui!');
     }
 
     public function update(Request $request, $id)
@@ -69,7 +69,7 @@ public function store(Request $request)
     // Sync permissions to the role
     $role->syncPermissions($validPermissions);
 
-    return redirect()->route('roles.index')->with('success', 'Role berhasil diperbarui!');
+    return redirect()->route('admin.roles.index')->with('success', 'Role berhasil diperbarui!');
 }
 
 

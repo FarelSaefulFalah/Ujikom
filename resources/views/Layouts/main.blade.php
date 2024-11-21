@@ -25,12 +25,9 @@
         @include('include.sidebar')
         @include('include.navbar')
         <div class="container my-5">
-            {{-- <h3>Beranda</h3> --}}
-            <div class="card shadow-lg border-0 rounded-lg">
-                <div class="card-body p-4">
+
+
                     @yield('content')
-                </div>
-            </div>
         </div>
     </div>
 

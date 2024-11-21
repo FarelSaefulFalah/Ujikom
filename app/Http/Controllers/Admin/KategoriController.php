@@ -14,6 +14,7 @@ class KategoriController extends Controller
     public function index()
     {
         $kategoris = Kategori::all();
+        $totkategoris = Kategori::count();
         return view('admin.kategori.index', compact('kategoris'));
     }
 
@@ -32,7 +33,6 @@ class KategoriController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:kategoris,name',
-            'slug' => 'nullable'
         ]);
 
         Kategori::create($validatedData);
@@ -63,7 +63,6 @@ class KategoriController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:kategoris,name,' . $kategori->id,
-            'slug' => 'nullable'
         ]);
 
         $kategori->update($validatedData);
