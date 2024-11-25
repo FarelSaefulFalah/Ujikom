@@ -1,6 +1,7 @@
 @extends('Layouts.main')
 @section('content')
-    <h2>Selamat Datang diDashboard, Admin</h2>
+    <h2>Selamat Datang di Dasbboard Le!</h2>
+    <br>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->

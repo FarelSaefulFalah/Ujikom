@@ -1,95 +1,97 @@
+<style>
+      .jumbotron {
+            padding: 6rem 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('https://source.unsplash.com/1600x900/?technology,office') no-repeat center center;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+        .jumbotron h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .jumbotron p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+</style>
+
 @extends('layouts.landing.master')
 
 @section('content')
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Welcome to Inventariz</h1>
+            <p>Pusat Dimana Barang - Barang Yang Kamu Perlukan Berada Disini.</p>
+        </div>
+    </div>
+    <br>
 
-    <div class="w-full py-6 px-4">
-        <div class="container mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                <div class="col-span-12 lg:col-span-8">
-                    <div class="flex flex-col md:flex-row md:justify-between mb-5 gap-4">
-                        <div class="flex flex-col">
-                            <h1 class="text-gray-700 font-bold text-lg">Daftar Barang</h1>
-                            <p class="text-gray-400 text-xs">
-                                Kumpulan data barang yang berada di gudang
-                            </p>
-                        </div>
-                        <form action="{{ route('barang.index') }}" method="get">
-                            <input
-                                class="border text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-700 text-gray-700 w-full"
-                                placeholder="Cari Data Barang.." name="search" value="{{ $search }}" />
-                        </form>
+    <div class="container my-5">
+        <div class="row">
+            <!-- Kategori Section -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="fw-bold">Daftar Kategori</h3>
+                        <span>Data Kategori</span>
+                        <ul class="list-group">
+                            @foreach ($kategoris as $kategori)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">{{ $kategori->name }}</span>
+                                    <span class="badge bg-secondary">{{ $kategori->slug }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                </div>
+            </div>
+
+            <!-- Barang Section -->
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="fw-bold">Daftar Barang</h3>
+                        <span>Data Barang-Barang</span>
                         @foreach ($barangs as $barang)
-                            <div class="relative bg-white p-4 rounded-lg border shadow-custom">
-                                                                        <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}"
-                                            alt="Gambar Barang" width="50">
-                                <div
-                                    class="font-mono absolute -top-3 -right-3 p-2 {{ $barang->jumlah > 0 ? 'bg-green-700' : 'bg-rose-700' }} rounded-lg text-gray-50">
-                                    {{ $barang->jumlah }}
+                            <!-- Landscape Item -->
+                            <div class="d-flex border-bottom py-3">
+                                <!-- Gambar Barang -->
+                                <div class="me-3">
+                                    <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}"
+                                        class="rounded" alt="Gambar {{ $barang->name }}"
+                                        style="width: 120px; height: 80px; object-fit: cover;">
                                 </div>
-                                <div class="flex flex-col gap-2 py-2">
-                                    <div class="flex justify-between">
-                                        <a href="{{ route('barang.show', $barang->slug) }}"
-                                            class="text-gray-700 text-sm hover:underline">{{ $barang->name }}</a>
-                                        <div class="text-gray-500 text-sm">{{ $barang->kategori->name }}</div>
-                                    </div>
-                                    @if ($barang->jumlah > 0)
-                                        <form action="{{ route('cart.store', $barang->slug) }}" method="POST">
-                                            @csrf
-                                            <button
-                                                class="text-gray-700 bg-gray-200 p-2 rounded-lg text-sm text-center hover:bg-gray-300 w-full"
-                                                type="submit">
-                                                Tambah ke keranjang
+                                <!-- Detail Barang -->
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold mb-1">{{ $barang->name }}</h6>
+                                    <p class="text-muted mb-0">Slug: {{ $barang->slug }}</p>
+                                    <p class="text-secondary mb-2">Jumlah Stok: <span class="fw-bold">{{ $barang->jumlah }}</span></p>
+                                </div>
+                                <!-- Tambah ke Keranjang -->
+                                <div class="align-self-center">
+                                    <form action="{{ route('cart.store', $barang->id) }}" method="POST">
+                                        @csrf
+                                        <div class="input-group">
+                                            <input type="number" name="jumlah" value="1" min="1"
+                                                max="{{ $barang->jumlah }}" class="form-control form-control-sm"
+                                                style="width: 70px;">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-cart-plus"></i> Tambah
                                             </button>
-                                        </form>
-                                    @else
-                                        <button
-                                            class="text-gray-700 bg-gray-200 p-2 rounded-lg text-sm text-center hover:bg-gray-300 w-full cursor-not-allowed">
-                                            Barang Tidak Tersedia
-                                        </button>
-                                    @endif
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-
-                    @if ($barangs->count() >= 6)
-                        <div class="mt-8 text-center flex justify-center">
-                            <a href="{{ route('barang.index') }}"
-                                class="bg-gray-700 px-4 py-2 rounded-lg text-gray-50 flex items-center hover:bg-gray-900">
-                                Lihat Semua Barang
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevrons-right"
-                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1.25"
-                                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <polyline points="7 7 12 12 7 17"></polyline>
-                                    <polyline points="13 7 18 12 13 17"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    @endif
-                </div>
-
-                <div class="col-span-12 lg:col-span-4 row-start-1">
-                    <div class="md:shadow-custom md:bg-white md:rounded-lg md:border">
-                        <div class="flex flex-col p-4">
-                            <h1 class="text-gray-700 font-bold text-lg">Daftar Kategori</h1>
-                            <p class="text-gray-400 text-xs">Kumpulan data kategori yang berada di gudang</p>
-                        </div>
-                        <div class="p-4 flex flex-row gap-8 overflow-x-auto md:grid md:grid-cols-1 md:gap-2">
-                            @foreach ($kategoris as $kategori)
-                                <a href="{{ route('kategori.show', $kategori->slug) }}"
-                                    class="p-2 flex flex-row items-center gap-4 rounded-lg bg-white border border-l-4 border-l-sky-700 hover:scale-105 duration-200 transition-transform min-w-full">
-                                    <div>
-                                        <h1 class="text-sm italic text-gray-700">{{ $kategori->name }}</h1>
-                                        <p class="text-xs text-gray-500">
-                                            {{ $kategori->barang->count() }} Produk
-                                        </p>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
+                        <!-- Jika tidak ada barang -->
+                        @if ($barangs->isEmpty())
+                            <div class="text-center py-5">
+                                <p class="text-muted">Tidak ada barang tersedia.</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

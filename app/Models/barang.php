@@ -28,7 +28,7 @@ class barang extends Model
     }
 
     public function cart(){
-        return $this->belongsToMany(cart::class,'barang');
+        return $this->hasMany(cart::class,'barang_id');
     }
 
 }

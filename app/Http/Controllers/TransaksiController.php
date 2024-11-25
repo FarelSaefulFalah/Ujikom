@@ -2,64 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\transaksi;
+use App\Models\Barang;
+use App\Models\Cart;
+use App\Models\Transaksi;
+use App\Models\Transaksi_detail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        // Memulai proses transaksi
+        DB::beginTransaction();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(transaksi $transaksi)
-    {
-        //
-    }
+        try {
+            // Validasi keranjang
+            $userId = Auth::id();
+            $carts = Cart::where('user_id', $userId)->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(transaksi $transaksi)
-    {
-        //
-    }
+            if ($carts->isEmpty()) {
+                return back()->with('error', 'Keranjang Anda kosong. Tidak ada transaksi yang dapat dilakukan.');
+            }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, transaksi $transaksi)
-    {
-        //
-    }
+            // Buat transaksi baru
+            $transaksi = new Transaksi();
+            $transaksi->invoice = 'INV-' . strtoupper(Str::random(8));
+            $transaksi->user_id = $userId;
+            $transaksi->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(transaksi $transaksi)
-    {
-        //
+            // Proses setiap item di keranjang
+            foreach ($carts as $cart) {
+                // Ambil data barang
+                $barang = Barang::find($cart->barang_id);
+
+                if (!$barang) {
+                    throw new \Exception("Barang dengan ID {$cart->barang_id} tidak ditemukan.");
+                }
+
+                if ($cart->jumlah > $barang->jumlah) {
+                    throw new \Exception("Stok tidak mencukupi untuk barang: {$barang->name}");
+                }
+
+                // Simpan detail transaksi
+                $detail = new Transaksi_detail();
+                $detail->transaksi_id = $transaksi->id;
+                $detail->barang_id = $cart->barang_id;
+                $detail->jumlah = $cart->jumlah;
+                $detail->save();
+
+                // Kurangi stok barang
+                $barang->decrement('jumlah', $cart->jumlah);
+            }
+
+            // Bersihkan keranjang
+            Cart::where('user_id', $userId)->delete();
+
+            // Commit database
+            DB::commit();
+
+            return redirect()->route('landing')->with('success', 'Transaksi berhasil! Pesanan Anda akan diproses.');
+        } catch (\Exception $e) {
+            // Rollback jika terjadi error
+            DB::rollBack();
+
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }
