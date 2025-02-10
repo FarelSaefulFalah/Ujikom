@@ -5,79 +5,57 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class rolePermissionSeeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // Reset cached roles and permissions
+        // Hapus cache permission untuk mencegah error duplikasi
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Buat atau perbarui role superadmin
-        $superadminRole = Role::updateOrCreate(['name' => 'superadmin']);
-        // $karyawanRole = Role::updateOrCreate(['name' => 'karyawan']);
+        // Buat role Superadmin
+        $superadminRole = Role::firstOrCreate(['name' => 'superadmin']);
 
-        // Daftar semua permissions
+        // Daftar permissions
         $permissions = [
             'index-dashboard',
             'index-product',
             'create-product',
             'delete-product',
             'update-product',
-            'index-kategori',
-            'create-kategori',
-            'delete-kategori',
-            'update-kategori',
-            'index-pemasok',
-            'create-pemasok',
-            'delete-pemasok',
-            'update-pemasok',
-            'index-kendaraan',
-            'create-kendaraan',
-            'delete-kendaraan',
-            'update-kendaraan',
-            'index-stock',
-            'create-stock',
-            'index-permission',
-            'create-permission',
-            'delete-permission',
-            'update-permission',
-            'index-role',
-            'create-role',
-            'delete-role',
-            'update-role',
             'index-user',
             'create-user',
             'delete-user',
             'update-user',
-            'index-permintaan',
-            'create-permintaan',
-            'index-rent',
-            'create-rent',
-            'index-transaction',
-            'create-transaction',
         ];
 
+        // Buat permission jika belum ada
         foreach ($permissions as $permission) {
-            Permission::updateOrCreate(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
+
+        // Berikan semua permissions ke Superadmin
         $superadminRole->syncPermissions($permissions);
 
-        
+        // **Membuat Superadmin jika belum ada**
+        $superadmin = User::firstOrCreate(
+            ['email' => 'admin@gmail.com'], // Cek berdasarkan email
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'), // Ganti dengan password yang aman
+            ]
+        );
 
-        // $karyawanPermissions = [
-        //     'index-dashboard',
-        //     'index-product',
-        //     'index-kendaraan',
-
-        // ];
-
-        // foreach ($karyawanPermissions as $permission) {
-        //     Permission::firstOrCreate(['name' => $permission]);
+        // // Berikan role Superadmin ke user
+        // if (!$superadmin->hasRole('superadmin')) {
+        //     $superadmin->assignRole('superadmin');
         // }
-        // $karyawanRole->syncPermissions($karyawanPermissions);
+
+        // $this->command->info("✅ Superadmin berhasil dibuat! Email: superadmin@example.com | Password: password123");
     }
 }

@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('barang_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('invoice');
+            $table->string('tipe', 50);
+            $table->integer('jumlah');
+            $table->dateTime('tanggal');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
+
+            $table->foreign('barang_id')->references('id')->on('barangs')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

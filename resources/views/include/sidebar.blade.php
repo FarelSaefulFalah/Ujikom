@@ -81,12 +81,6 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="">
-              <i class="fas fa-fw fa-cog"></i>
-              <span>Kendaraan</span>
-          </a>
-      </li>
-      <li class="nav-item">
           <a class="nav-link" href="{{route('admin.barang.index')}}">
               <i class="fas fa-fw fa-cog"></i>
               <span>Barang</span>
