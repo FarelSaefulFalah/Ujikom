@@ -15,12 +15,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Kode Barang</th>
                                 <th>Nama</th>
                                 <th>Kategori</th>
-                                <th>Pemasok</th>
                                 <th>Keterangan</th>
                                 <th>Jumlah</th>
-                                <th>Satuan</th>
                                 <th>Gambar</th>
                                 <th>Aksi</th>
                             </tr>
@@ -29,12 +28,11 @@
                             @foreach ($barangs as $barang)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $barang->kode_barang }}</td>
                                     <td>{{ $barang->name }}</td>
                                     <td>{{ $barang->kategori->name }}</td>
-                                    <td>{{ $barang->pemasok->name }}</td>
-                                    <td>{{ $barang->keterangan }}</td>
                                     <td>{{ $barang->jumlah }}</td>
-                                    <td>{{ $barang->satuan }}</td>
+                                    <td>{{ $barang->keterangan }}</td>
                                     <td>
                                         <!-- Menampilkan gambar atau fallback jika tidak ada gambar -->
                                         <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}"
@@ -82,16 +80,6 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label for="pemasok_id">Pemasok</label>
-                                                        <select name="pemasok_id" class="form-control" required>
-                                                            @foreach ($pemasoks as $pemasok)
-                                                                <option value="{{ $pemasok->id }}"
-                                                                    {{ $barang->pemasok_id == $pemasok->id ? 'selected' : '' }}>
-                                                                    {{ $pemasok->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-3">
                                                         <label for="keterangan">Keterangan</label>
                                                         <input type="text" name="keterangan" class="form-control"
                                                             value="{{ $barang->keterangan }}" required>
@@ -102,9 +90,9 @@
                                                             value="{{ $barang->jumlah }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label for="satuan">Satuan</label>
-                                                        <input type="text" name="satuan" class="form-control"
-                                                            value="{{ $barang->satuan }}" required>
+                                                        <label for="kode_barang">kode barang</label>
+                                                        <input type="text" name="kode_barang" class="form-control"
+                                                            value="{{ $barang->kode_barang }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="gambar">Gambar</label>
@@ -170,6 +158,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
+                            <label for="kode_barang">kode barang</label>
+                            <input type="text" name="kode_barang" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="name">Nama</label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
@@ -183,15 +175,6 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="pemasok_id">Pemasok</label>
-                            <select name="pemasok_id" class="form-control" required>
-                                <option value="" disabled selected>Pilih Pemasok</option>
-                                @foreach ($pemasoks as $pemasok)
-                                    <option value="{{ $pemasok->id }}">{{ $pemasok->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
                             <label for="keterangan">Keterangan</label>
                              <input type="text" name="keterangan" class="form-control" required>
                         </div>
@@ -199,10 +182,7 @@
                             <label for="jumlah">Jumlah</label>
                             <input type="number" name="jumlah" class="form-control" required>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="satuan">Satuan</label>
-                            <input type="text" name="satuan" class="form-control" required>
-                        </div>
+
                         <div class="form-group mb-3">
                             <label for="gambar">Gambar</label>
                             <input type="file" name="gambar" class="form-control" required>

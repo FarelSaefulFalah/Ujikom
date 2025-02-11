@@ -51,11 +51,9 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
-        // // Berikan role Superadmin ke user
-        // if (!$superadmin->hasRole('superadmin')) {
-        //     $superadmin->assignRole('superadmin');
-        // }
+        // Berikan role Superadmin ke user (dipastikan user memiliki role ini)
+        $superadmin->syncRoles(['superadmin']);
 
-        // $this->command->info("✅ Superadmin berhasil dibuat! Email: superadmin@example.com | Password: password123");
+        $this->command->info("Atmint berhasil di buat");
     }
 }

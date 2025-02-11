@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('nama', 255);
             $table->unsignedBigInteger('kategori_id');
             $table->integer('jumlah');
-            $table->text('deskripsi');
+            $table->text('keterangan');
+            $table->string('gambar');
             $table->timestamps();
 
             $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('cascade');

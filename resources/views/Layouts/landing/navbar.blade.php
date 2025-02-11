@@ -1,7 +1,7 @@
  <!-- Navbar -->
  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
      <div class="container">
-         <a class="navbar-brand" href="{{route('landing')}}"><b>Inventariz TIRIZ</b></a>
+         <a class="navbar-brand" href="{{route('landing')}}"><b>AMBATARIZ</b></a>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
              <span class="navbar-toggler-icon"></span>
@@ -20,17 +20,17 @@
                  </li>
                  <li class="nav-item">
                      @role('Admin|superadmin')
-                        <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
+                        {{--  <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
                             <i class="bi bi-basket3-fill"></i>
-                        </a>
+                        </a>  --}}
                          <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light">Dashboard</a>
                      @endrole
                  </li>
                  <li>
                      @role('Murid')
-                     <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
+                     {{--  <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
                             <i class="bi bi-basket3-fill"></i>
-                        </a>
+                        </a>  --}}
                          <a href="{{ route('Users.dashboard') }}" class="btn btn-outline-light">Dashboard</a>
                      @endrole
                  </li>

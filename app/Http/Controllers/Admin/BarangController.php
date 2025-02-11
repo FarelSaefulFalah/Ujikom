@@ -17,9 +17,8 @@ class BarangController extends Controller
     public function index()
     {
         $kategoris = Kategori::all();
-        $pemasoks = Pemasok::all();
-        $barangs = Barang::with(['kategori', 'pemasok'])->get();
-        return view('admin.barang.index', compact('barangs', 'kategoris', 'pemasoks'));
+        $barangs = Barang::with(['kategori'])->get();
+        return view('admin.barang.index', compact('barangs', 'kategoris'));
     }
 
     /**
@@ -28,8 +27,7 @@ class BarangController extends Controller
     public function create()
     {
         $kategoris = Kategori::all();
-        $pemasoks = Pemasok::all();
-        return view('admin.barang.create', compact('kategoris', 'pemasoks'));
+        return view('admin.barang.create', compact('kategoris'));
     }
 
     /**
@@ -41,10 +39,9 @@ class BarangController extends Controller
             'name' => 'required|string|max:255',
             'keterangan' => 'required|string',
             'jumlah' => 'required|integer',
-            'satuan' => 'required|string|max:50',
+            'kode_barang' => 'required|string|max:50',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'required|exists:kategoris,id',
-            'pemasok_id' => 'required|exists:pemasoks,id',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -72,7 +69,6 @@ class BarangController extends Controller
     public function edit(Barang $barang)
     {
         $kategoris = Kategori::all();
-        $pemasoks = Pemasok::all();
         return view('admin.barang.edit', compact('barang', 'kategoris', 'pemasoks'));
     }
 
@@ -85,10 +81,9 @@ class BarangController extends Controller
             'name' => 'required|string|max:255',
             'keterangan' => 'required|string',
             'jumlah' => 'required|integer',
-            'satuan' => 'required|string|max:50',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kode_barang' => 'required|string|max:50',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'required|exists:kategoris,id',
-            'pemasok_id' => 'required|exists:pemasoks,id',
         ]);
 
         if ($request->hasFile('gambar')) {
