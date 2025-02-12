@@ -17,9 +17,9 @@
                                 <th>#</th>
                                 <th>Kode Barang</th>
                                 <th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Keterangan</th>
+                                <th>Kategori</th>  
                                 <th>Jumlah</th>
+                                <th>Keterangan</th>
                                 <th>Gambar</th>
                                 <th>Aksi</th>
                             </tr>
@@ -29,21 +29,17 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->kode_barang }}</td>
-                                    <td>{{ $barang->name }}</td>
-                                    <td>{{ $barang->kategori->name }}</td>
+                                    <td>{{ $barang->nama }}</td>
+                                    <td>{{ $barang->kategori->name ?? 'Tidak ada kategori' }}</td>
                                     <td>{{ $barang->jumlah }}</td>
                                     <td>{{ $barang->keterangan }}</td>
                                     <td>
-                                        <!-- Menampilkan gambar atau fallback jika tidak ada gambar -->
-                                        <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}"
-                                            alt="Gambar Barang" width="50">
+                                        <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}" alt="Gambar Barang" width="50">
                                     </td>
                                     <td>
-                                        <!-- Edit Button -->
                                         <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#editBarangModal{{ $barang->id }}">Edit</button>
 
-                                        <!-- Delete Button -->
                                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#deleteBarangModal{{ $barang->id }}">Delete</button>
                                     </td>
@@ -54,45 +50,35 @@
                                     aria-labelledby="editBarangModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('admin.barang.update', $barang->id) }}" method="POST"
-                                                enctype="multipart/form-data">
+                                            <form action="{{ route('admin.barang.update', $barang->id) }}" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="editBarangModalLabel">Edit Barang</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group mb-3">
-                                                        <label for="name">Nama</label>
-                                                        <input type="text" name="name" class="form-control"
-                                                            value="{{ $barang->name }}" required>
+                                                        <label for="nama">Nama</label>
+                                                        <input type="text" name="nama" class="form-control" value="{{ $barang->nama }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="kategori_id">Kategori</label>
                                                         <select name="kategori_id" class="form-control" required>
                                                             @foreach ($kategoris as $kategori)
-                                                                <option value="{{ $kategori->id }}"
-                                                                    {{ $barang->kategori_id == $kategori->id ? 'selected' : '' }}>
-                                                                    {{ $kategori->name }}</option>
+                                                                <option value="{{ $kategori->id }}" {{ $barang->kategori_id == $kategori->id ? 'selected' : '' }}>
+                                                                    {{ $kategori->name }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="keterangan">Keterangan</label>
-                                                        <input type="text" name="keterangan" class="form-control"
-                                                            value="{{ $barang->keterangan }}" required>
+                                                        <input type="text" name="keterangan" class="form-control" value="{{ $barang->keterangan }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="jumlah">Jumlah</label>
-                                                        <input type="number" name="jumlah" class="form-control"
-                                                            value="{{ $barang->jumlah }}" required>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label for="kode_barang">kode barang</label>
-                                                        <input type="text" name="kode_barang" class="form-control"
-                                                            value="{{ $barang->kode_barang }}" required>
+                                                        <input type="number" name="jumlah" class="form-control" value="{{ $barang->jumlah }}" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="gambar">Gambar</label>
@@ -101,8 +87,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                                 </div>
                                             </form>
@@ -120,17 +105,13 @@
                                                 @method('DELETE')
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="deleteBarangModalLabel">Delete Barang</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Apakah Anda yakin ingin menghapus Barang
-                                                        <strong>{{ $barang->name }}</strong>?
-                                                    </p>
+                                                    <p>Apakah Anda yakin ingin menghapus Barang <strong>{{ $barang->nama }}</strong>?</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     <button type="submit" class="btn btn-danger">Delete</button>
                                                 </div>
                                             </form>
@@ -146,8 +127,7 @@
     </div>
 
     <!-- Create Barang Modal -->
-    <div class="modal fade" id="createBarangModal" tabindex="-1" aria-labelledby="createBarangModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="createBarangModal" tabindex="-1" aria-labelledby="createBarangModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
@@ -158,12 +138,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group mb-3">
-                            <label for="kode_barang">kode barang</label>
-                            <input type="text" name="kode_barang" class="form-control" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="name">Nama</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <label for="nama">Nama</label>
+                            <input type="text" name="nama" class="form-control" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="kategori_id">Kategori</label>
@@ -176,13 +152,12 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="keterangan">Keterangan</label>
-                             <input type="text" name="keterangan" class="form-control" required>
+                            <input type="text" name="keterangan" class="form-control" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="jumlah">Jumlah</label>
                             <input type="number" name="jumlah" class="form-control" required>
                         </div>
-
                         <div class="form-group mb-3">
                             <label for="gambar">Gambar</label>
                             <input type="file" name="gambar" class="form-control" required>

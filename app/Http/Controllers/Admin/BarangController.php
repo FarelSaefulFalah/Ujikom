@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Barang;
 use App\Models\Kategori;
-use App\Models\Pemasok;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BarangController extends Controller
 {
@@ -17,17 +17,8 @@ class BarangController extends Controller
     public function index()
     {
         $kategoris = Kategori::all();
-        $barangs = Barang::with(['kategori'])->get();
+        $barangs = Barang::with('kategori')->get();
         return view('admin.barang.index', compact('barangs', 'kategoris'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $kategoris = Kategori::all();
-        return view('admin.barang.create', compact('kategoris'));
     }
 
     /**
@@ -36,31 +27,26 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'keterangan' => 'required|string',
+            'nama' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
             'jumlah' => 'required|integer',
-            'kode_barang' => 'required|string|max:50',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
+        // Generate kode_barang otomatis
+        $validatedData['kode_barang'] = 'BRG-' . strtoupper(Str::random(6));
+
+        // Jika ada gambar yang diunggah
         if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-            $gambarPath = $gambar->store('uploads/barang', 'public');
+            $gambarPath = $request->file('gambar')->store('uploads/barang', 'public');
             $validatedData['gambar'] = $gambarPath;
         }
 
+        // Simpan barang
         Barang::create($validatedData);
 
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Barang $barang)
-    {
-        return view('admin.barang.show', compact('barang'));
     }
 
     /**
@@ -69,7 +55,7 @@ class BarangController extends Controller
     public function edit(Barang $barang)
     {
         $kategoris = Kategori::all();
-        return view('admin.barang.edit', compact('barang', 'kategoris', 'pemasoks'));
+        return view('admin.barang.edit', compact('barang', 'kategoris'));
     }
 
     /**
@@ -78,25 +64,24 @@ class BarangController extends Controller
     public function update(Request $request, Barang $barang)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'keterangan' => 'required|string',
+            'nama' => 'required|string|max:255',
+            'keterangan' => 'nullable|string',
             'jumlah' => 'required|integer',
-            'kode_barang' => 'required|string|max:50',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'kategori_id' => 'required|exists:kategoris,id',
         ]);
 
+        // Jika ada gambar baru, hapus gambar lama dan simpan yang baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($barang->gambar && Storage::exists('public/' . $barang->gambar)) {
                 Storage::delete('public/' . $barang->gambar);
             }
 
-            $gambar = $request->file('gambar');
-            $gambarPath = $gambar->store('uploads/barang', 'public');
+            $gambarPath = $request->file('gambar')->store('uploads/barang', 'public');
             $validatedData['gambar'] = $gambarPath;
         }
 
+        // Update barang tanpa mengubah kode_barang
         $barang->update($validatedData);
 
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil diperbarui.');

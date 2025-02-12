@@ -13,9 +13,7 @@
                             <th>#</th>
                             <th>Foto</th>
                             <th>Nama Barang</th>
-                            <th>Nama Pemasok</th>
                             <th>Kategori</th>
-                            <th>Satuan</th>
                             <th>Jumlah</th>
                             <th>Aksi</th>
                         </tr>
@@ -27,10 +25,8 @@
                                 <td>
                                     <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}" width="50">
                                 </td>
-                                <td>{{ $barang->name }}</td>
-                                <td>{{ $barang->pemasok->name }}</td>
+                                <td>{{ $barang->nama }}</td>
                                 <td>{{ $barang->kategori->name }}</td>
-                                <td>{{ $barang->satuan }}</td>
                                 <td>{{ $barang->jumlah }}</td>
                                 <td>
                                     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-{{ $barang->id }}">Tambah Stok</button>
