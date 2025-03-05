@@ -71,19 +71,6 @@
                                     <p class="text-secondary mb-2">Jumlah Stok: <span class="fw-bold">{{ $barang->jumlah }}</span></p>
                                 </div>
                                 <!-- Tambah ke Keranjang -->
-                                <div class="align-self-center">
-                                    <form action="{{ route('cart.store', $barang->id) }}" method="POST">
-                                        @csrf
-                                        <div class="input-group">
-                                            <input type="number" name="jumlah" value="1" min="1"
-                                                max="{{ $barang->jumlah }}" class="form-control form-control-sm"
-                                                style="width: 70px;">
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-cart-plus"></i> Tambah
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
                         @endforeach
                         <!-- Jika tidak ada barang -->

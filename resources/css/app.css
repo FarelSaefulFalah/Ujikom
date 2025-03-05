@@ -1,0 +1,15 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Biar sidebar penuh sepanjang layar */
+    overflow-y: auto; /* Agar bisa di-scroll jika terlalu panjang */
+    width: 250px; /* Sesuaikan dengan lebar sidebar */
+    z-index: 1030; /* Pastikan tetap di atas */
+}
+.sidebar {
+    position: sticky;
+    top: 0; /* Tetap di atas saat scroll */
+    height: 100vh;
+    overflow-y: auto;
+}

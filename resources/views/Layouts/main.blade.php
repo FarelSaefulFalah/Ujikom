@@ -25,9 +25,7 @@
         @include('include.sidebar')
         @include('include.navbar')
         <div class="container my-5">
-
-
-                    @yield('content')
+             @yield('content')
         </div>
     </div>
 

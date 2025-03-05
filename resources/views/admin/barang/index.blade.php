@@ -16,9 +16,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Kode Barang</th>
+                                <th>Nomor Seri</th>
                                 <th>Nama</th>
                                 <th>Kategori</th>  
                                 <th>Jumlah</th>
+                                <th>Status</th>
                                 <th>Keterangan</th>
                                 <th>Gambar</th>
                                 <th>Aksi</th>
@@ -29,9 +31,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $barang->kode_barang }}</td>
+                                    <td>{{ $barang->nomor_seri }}</td>
                                     <td>{{ $barang->nama }}</td>
                                     <td>{{ $barang->kategori->name ?? 'Tidak ada kategori' }}</td>
                                     <td>{{ $barang->jumlah }}</td>
+                                    <td>{{ $barang->status }}</td>
                                     <td>{{ $barang->keterangan }}</td>
                                     <td>
                                         <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}" alt="Gambar Barang" width="50">
@@ -157,6 +161,14 @@
                         <div class="form-group mb-3">
                             <label for="jumlah">Jumlah</label>
                             <input type="number" name="jumlah" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="status">Status</label>
+                            <select name="status" class="form-control" required>
+                                <option value="tersedia" >Tersedia</option>
+                                <option value="dipinjam">Dipinjam</option>
+                                <option value="rusak">Rusak</option>
+                            </select>
                         </div>
                         <div class="form-group mb-3">
                             <label for="gambar">Gambar</label>

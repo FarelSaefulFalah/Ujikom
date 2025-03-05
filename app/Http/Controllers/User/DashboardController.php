@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\User;
 
 use App\Models\transaksi;
 use Illuminate\Http\Request;
@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     public function index(){
-        $tranksaksis = transaksi::all();
-        return view('Users.dashboard', compact('tranksaksis'));
+        return view('user.dashboard');
     }
 }

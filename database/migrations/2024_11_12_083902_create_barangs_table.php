@@ -15,14 +15,16 @@ return new class extends Migration
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
             $table->string('kode_barang', 50)->unique();
+            $table->string('nomor_seri', 50)->unique(); // Nomor seri unik untuk setiap barang
             $table->string('nama', 255);
             $table->unsignedBigInteger('kategori_id');
             $table->integer('jumlah');
-            $table->text('keterangan');
-            $table->string('gambar');
+            $table->text('keterangan')->nullable();
+            $table->string('gambar')->nullable();
+            $table->enum('status', ['tersedia', 'dipinjam', 'rusak'])->default('tersedia'); // Status barang
             $table->timestamps();
 
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('cascade');
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('cascade');
         });
     }
 
