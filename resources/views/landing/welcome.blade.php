@@ -41,7 +41,7 @@
                             @foreach ($kategoris as $kategori)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span class="fw-bold">{{ $kategori->name }}</span>
-                                    <span class="badge bg-secondary">{{ $kategori->slug }}</span>
+                                    {{-- <span class="badge bg-secondary">{{ $kategori->slug }}</span> --}}
                                 </li>
                             @endforeach
                         </ul>
@@ -50,7 +50,7 @@
             </div>
 
             <!-- Barang Section -->
-            <div class="col-md-8">
+            <div class="col-md-8"> 
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h3 class="fw-bold">Daftar Barang</h3>
@@ -61,13 +61,13 @@
                                 <!-- Gambar Barang -->
                                 <div class="me-3">
                                     <img src="{{ asset('storage/' . ($barang->gambar ?? 'default-image.jpg')) }}"
-                                        class="rounded" alt="Gambar {{ $barang->name }}"
+                                        class="rounded" alt="Gambar {{ $barang->nama }}"
                                         style="width: 120px; height: 80px; object-fit: cover;">
                                 </div>
                                 <!-- Detail Barang -->
                                 <div class="flex-grow-1">
-                                    <h6 class="fw-bold mb-1">{{ $barang->name }}</h6>
-                                    <p class="text-muted mb-0">Slug: {{ $barang->slug }}</p>
+                                    <h6 class="fw-bold mb-1">{{ $barang->nama }}</h6>
+                                    <p class="text-muted mb-0"></p>
                                     <p class="text-secondary mb-2">Jumlah Stok: <span class="fw-bold">{{ $barang->jumlah }}</span></p>
                                 </div>
                                 <!-- Tambah ke Keranjang -->

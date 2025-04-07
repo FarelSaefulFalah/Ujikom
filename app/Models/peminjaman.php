@@ -41,19 +41,28 @@ class Peminjaman extends Model
 
     // Cek dan Update Status Keterlambatan
     public function cekKeterlambatan()
-    {
-        if ($this->tanggal_kembali && now()->greaterThan($this->tanggal_kembali)) {
-            $this->update([
-                'status_peminjaman' => 'terlambat',
-                'denda' => $this->hitungDenda()
-            ]);
+{
+    $now = now();
+
+    if ($this->status_peminjaman === 'approved' || $this->status_peminjaman === 'terlambat') {
+        if ($now->greaterThan($this->tanggal_kembali)) {
+            $hariTerlambat = $now->diffInDays($this->tanggal_kembali);
+            $this->denda = $hariTerlambat * 3000;
+            $this->status_peminjaman = 'terlambat';
+        } else {
+            $this->denda = 0;
+            $this->status_peminjaman = 'approved';
         }
+        $this->save();
     }
+}
+
+
 
     // Proses Pengembalian Barang
     public function kembalikanBarang()
     {
-        if ($this->status_peminjaman === 'dikembalikan') {
+        if ($this->status_peminjaman === 'returned') {
             return false; // Sudah dikembalikan sebelumnya
         }
 
@@ -72,7 +81,7 @@ class Peminjaman extends Model
 
         // Update status peminjaman
         $this->update([
-            'status_peminjaman' => 'dikembalikan',
+            'status_peminjaman' => 'returned',
             'denda' => $denda
         ]);
 
@@ -80,13 +89,13 @@ class Peminjaman extends Model
     }
 
     // Hitung Denda Jika Terlambat
-    private function hitungDenda($tanggalPengembalian = null)
+    public function hitungDenda($tanggalPengembalian = null)
     {
         $tanggalPengembalian = $tanggalPengembalian ?? now();
 
         if ($this->tanggal_kembali && $tanggalPengembalian->greaterThan($this->tanggal_kembali)) {
             $hariTerlambat = $tanggalPengembalian->diffInDays($this->tanggal_kembali);
-            return $hariTerlambat * 5000; // Rp 5.000 per hari keterlambatan
+            return $hariTerlambat * 3000; // Rp 5.000 per hari keterlambatan
         }
 
         return 0;

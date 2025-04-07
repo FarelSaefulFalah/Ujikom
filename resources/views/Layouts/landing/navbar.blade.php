@@ -23,7 +23,7 @@
                     @endrole
                 </li>
                 <li class="nav-item">
-                    @role('Murid')
+                    @role('user')
                         {{--  <a href="{{ route('cart.index') }}" class="btn btn-outline-light">
                             <i class="bi bi-basket3-fill"></i>
                         </a>  --}}

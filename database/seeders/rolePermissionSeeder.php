@@ -18,8 +18,9 @@ class RolePermissionSeeder extends Seeder
         // Hapus cache permission untuk mencegah error duplikasi
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Buat role Superadmin
-        $superadminRole = Role::firstOrCreate(['name' => 'superadmin']);
+        // Pastikan role "user" dan "superadmin" dibuat dengan guard "web"
+        $superadminRole = Role::firstOrCreate(['name' => 'superadmin', 'guard_name' => 'web']);
+        $userRole = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
 
         // Daftar permissions
         $permissions = [
@@ -36,7 +37,7 @@ class RolePermissionSeeder extends Seeder
 
         // Buat permission jika belum ada
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
         // Berikan semua permissions ke Superadmin
@@ -54,6 +55,6 @@ class RolePermissionSeeder extends Seeder
         // Berikan role Superadmin ke user (dipastikan user memiliki role ini)
         $superadmin->syncRoles(['superadmin']);
 
-        $this->command->info("Atmint berhasil di buat");
+        $this->command->info("Role & permission berhasil dibuat!");
     }
 }

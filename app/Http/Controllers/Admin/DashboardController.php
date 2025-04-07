@@ -6,6 +6,7 @@ use App\Models\barang;
 use App\Models\kategori;
 use App\Models\kendaraan;
 use App\Models\pemasok;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 class DashboardController extends Controller
@@ -14,6 +15,7 @@ class DashboardController extends Controller
         $barangs = barang::count();
         $kategoris = kategori::count();
         $pemasoks = pemasok::count();
-        return view('admin.dashboard', compact('barangs', 'kategoris','pemasoks'));
+        $users = user::count();
+        return view('admin.dashboard', compact('barangs', 'kategoris','pemasoks','users'));
     }
 }

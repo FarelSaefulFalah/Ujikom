@@ -13,6 +13,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $roles = Role::all();
+        $totuser = User::count();
         return view('admin.user.index', compact('users', 'roles'));
     }
 

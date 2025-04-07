@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->nullable();
-            $table->enum('status_peminjaman', ['pending', 'approved', 'rejected', 'returned'])->default('pending');
+            $table->enum('status_peminjaman', ['pending', 'approved', 'rejected', 'returned','terlambat'])->default('pending');
             $table->decimal('denda', 10, 2)->default(0); // Denda jika terlambat
             $table->timestamps();
 

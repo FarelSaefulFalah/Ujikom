@@ -29,7 +29,7 @@
                                 <td>{{ $barang->kategori->name }}</td>
                                 <td>{{ $barang->jumlah }}</td>
                                 <td>
-                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-{{ $barang->id }}">Tambah Stok</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modal-{{ $barang->id }}">Tambah Stok</button>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="modal-{{ $barang->id }}" tabindex="-1" aria-labelledby="modalLabel-{{ $barang->id }}" aria-hidden="true">

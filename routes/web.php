@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'r
 });
 
 // User Routes
-Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'role:Murid']], function () {
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'role:user']], function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     // Peminjaman Barang (User)
@@ -70,13 +70,20 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth', 'rol
         Route::get('/peminjaman/saya', 'myPeminjaman')->name('peminjaman.my');
     });
 
-    // Pengembalian Barang & Denda (User)
     Route::controller(UserPengembalianController::class)->group(function () {
+        // Menampilkan daftar barang yang harus dikembalikan
         Route::get('/pengembalian', 'index')->name('pengembalian.index');
+    
+        // Proses pengembalian barang (tombol "Kembalikan Barang")
+        Route::post('/pengembalian/{id}/proses', 'prosesPengembalian')->name('pengembalian.proses');
+    
+        // Menampilkan halaman pembayaran denda
         Route::get('/pengembalian/{id}/bayar', 'showBayar')->name('pengembalian.bayar');
+    
+        // Proses pembayaran denda
         Route::post('/pengembalian/{id}/bayar', 'prosesBayar')->name('pengembalian.prosesBayar');
     });
+    
 });
-
 // Auth Routes
 Auth::routes();

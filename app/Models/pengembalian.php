@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pengembalian extends Model
+class Pengembalian extends Model
 {
     use HasFactory;
 
@@ -26,12 +26,12 @@ class pengembalian extends Model
     // Fungsi untuk melakukan pembayaran denda
     public function bayarDenda($userId, $metodePembayaran)
     {
-        // Cek apakah sudah dibayar
+        // Cek apakah denda sudah dibayar
         if ($this->pembayaran) {
             return false; // Denda sudah dibayar
         }
 
-        // Cek apakah ada denda yang harus dibayar
+        // Jika tidak ada denda, tidak perlu pembayaran
         if ($this->denda_akhir <= 0) {
             return false;
         }
